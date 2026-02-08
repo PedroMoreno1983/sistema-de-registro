@@ -1,11 +1,565 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Registro de Juegos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Condominio Feliz - Plataforma Operativa</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --primary: #1d4ed8;
+      --primary-dark: #1e40af;
+      --secondary: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --surface: #f8fafc;
+      --success: #16a34a;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      background: #ffffff;
+      color: var(--secondary);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(120deg, #0f172a 0%, #1d4ed8 100%);
+      color: #fff;
+      padding: 32px 24px 72px;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: #dbeafe;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .button.primary {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .button.secondary {
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #fff;
+      background: transparent;
+    }
+
+    main {
+      padding: 48px 0 80px;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+      max-width: 720px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      padding: 24px;
+      border-radius: 16px;
+    }
+
+    .panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .list-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fff;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .badge.success {
+      background: rgba(22, 163, 74, 0.15);
+      color: var(--success);
+    }
+
+    .badge.warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning);
+    }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    footer {
+      background: var(--surface);
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
 </head>
 <body>
-    
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">Condominio Feliz</div>
+        <div class="nav-links">
+          <a href="#software">Software</a>
+          <a href="#operaciones">Operaciones</a>
+          <a href="#marketplace">Marketplace</a>
+          <a href="#backoffice">Backoffice</a>
+        </div>
+      </nav>
+      <div class="hero">
+        <div>
+          <h1>Administrador de condominios con operaciones activas y marketplace.</h1>
+          <p>
+            Plataforma completa para pagos con Haulmer (link de pago), turnos de conserjería,
+            seguridad, perfiles de residentes y un marketplace comunitario con ecommerce,
+            dropshipping y trueques.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#backoffice">Ir al panel operativo</a>
+            <a class="button secondary" href="#marketplace">Ver marketplace</a>
+          </div>
+        </div>
+        <div class="card">
+          <span class="tag">Pagos en línea</span>
+          <h3>Pasarela Haulmer por link de pago</h3>
+          <p>
+            Genera links de pago para gastos comunes, compras del marketplace y cuotas especiales.
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="software">
+      <div class="container">
+        <h2 class="section-title">Software de administración del condominio</h2>
+        <p class="section-subtitle">
+          Un panel único para administradores y comités: finanzas, operaciones, mantenimiento y seguridad.
+          Se prioriza trazabilidad, automatización y cumplimiento normativo.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <span class="tag">Finanzas</span>
+            <h3>Gestión de pagos y cobranzas</h3>
+            <p>Procesa pagos, recargos, intereses y reportes contables con conciliación automática.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Operación</span>
+            <h3>Turnos de conserjería</h3>
+            <p>Planificación de turnos, control de asistencia y alertas para reemplazos críticos.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Seguridad</span>
+            <h3>Centro de monitoreo</h3>
+            <p>Registro de visitas, incidentes, bitácora digital y alertas de seguridad.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Mantenimiento</span>
+            <h3>Gestión de activos</h3>
+            <p>Calendario de mantenciones, proveedores y control de gastos por edificio.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="operaciones">
+      <div class="container">
+        <h2 class="section-title">Perfiles y roles activos</h2>
+        <p class="section-subtitle">
+          Administra perfiles para administrador, arrendatario, dueño residente, dueño no residente y conserje.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <span class="tag">Administrador</span>
+            <h3>Control total</h3>
+            <p>Configura gastos comunes, supervisa turnos y monitorea reportes de seguridad.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Arrendatario</span>
+            <h3>Autogestión</h3>
+            <p>Acceso a pagos, reservas, soporte y comunicación con la administración.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Dueños</span>
+            <h3>Residente / no residente</h3>
+            <p>Visualiza estado financiero, aprueba gastos y controla permisos de arriendo.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Conserjería</span>
+            <h3>Operación diaria</h3>
+            <p>Recibe turnos, gestiona visitas y reporta incidentes en tiempo real.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="marketplace">
+      <div class="container">
+        <h2 class="section-title">Marketplace comunitario con ecommerce y dropshipping</h2>
+        <p class="section-subtitle">
+          Una vitrina segura para comercio entre vecinos y con proveedores aliados, incluyendo trueques.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <span class="tag">Marketplace</span>
+            <h3>Publicaciones por edificio</h3>
+            <p>Productos, servicios y avisos segmentados por comunidad y ubicación.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Ecommerce</span>
+            <h3>Carrito y envíos</h3>
+            <p>Checkout, logística colaborativa y pagos digitales integrados.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Dropshipping</span>
+            <h3>Catálogo externo</h3>
+            <p>Conecta proveedores externos para venta directa sin inventario.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Trueque</span>
+            <h3>Intercambios seguros</h3>
+            <p>Publica trueques con validación comunitaria y reputación.</p>
+          </div>
+        </div>
+        <div class="highlight" style="margin-top: 24px;">
+          <strong>Plus:</strong> Integración con Haulmer para cobrar servicios, compras y cuotas especiales
+          desde la misma app con links de pago.
+        </div>
+      </div>
+    </section>
+
+    <section id="backoffice">
+      <div class="container">
+        <h2 class="section-title">Panel operativo (backend activo)</h2>
+        <p class="section-subtitle">
+          Registra perfiles, turnos de conserjería y publicaciones del marketplace. Todo queda persistido en base de datos.
+        </p>
+        <div class="panel">
+          <div class="card">
+            <span class="tag">Acceso</span>
+            <h3>Inicio de sesión</h3>
+            <form id="login-form">
+              <label for="login-name">Usuario</label>
+              <input id="login-name" name="name" required placeholder="Nombre registrado" />
+
+              <label for="login-password">Contraseña</label>
+              <input id="login-password" name="password" type="password" required />
+
+              <button class="button primary" type="submit">Ingresar</button>
+              <button class="button secondary" type="button" id="logout-button">Cerrar sesión</button>
+              <p class="footer-note" id="login-status"></p>
+            </form>
+          </div>
+          <div class="card">
+            <span class="tag">Perfiles</span>
+            <h3>Crear perfil</h3>
+            <form id="user-form">
+              <label for="user-name">Nombre completo</label>
+              <input id="user-name" name="name" required placeholder="Ej: Carolina Torres" />
+
+              <label for="user-role">Rol</label>
+              <select id="user-role" name="role" required>
+                <option value="">Selecciona un rol</option>
+                <option value="administrador">Administrador</option>
+                <option value="arrendatario">Arrendatario</option>
+                <option value="dueno_residente">Dueño residente</option>
+                <option value="dueno_no_residente">Dueño no residente</option>
+                <option value="conserje">Conserje</option>
+              </select>
+
+              <label for="user-unit">Unidad / Departamento</label>
+              <input id="user-unit" name="unit" placeholder="Ej: Torre A - 1203" />
+
+              <label for="user-contact">Contacto</label>
+              <input id="user-contact" name="contact" placeholder="correo o teléfono" />
+
+              <label for="user-password">Contraseña</label>
+              <input id="user-password" name="password" type="password" required placeholder="Mínimo 1 carácter" />
+              <p class="footer-note">Debe incluir 8+ caracteres, mayúscula, minúscula y número.</p>
+
+              <button class="button primary" type="submit">Guardar perfil</button>
+              <p class="footer-note" id="user-status"></p>
+            </form>
+          </div>
+
+          <div class="card">
+            <span class="tag">Turnos</span>
+            <h3>Programar turno de conserje</h3>
+            <form id="shift-form">
+              <label for="shift-guard">Conserje</label>
+              <select id="shift-guard" name="guard" required></select>
+
+              <label for="shift-date">Fecha</label>
+              <input id="shift-date" name="date" type="date" required />
+
+              <label for="shift-start">Hora inicio</label>
+              <input id="shift-start" name="start" type="time" required />
+
+              <label for="shift-end">Hora término</label>
+              <input id="shift-end" name="end" type="time" required />
+
+              <label for="shift-notes">Notas</label>
+              <textarea id="shift-notes" name="notes" placeholder="Relevo, instrucciones, etc."></textarea>
+
+              <button class="button primary" type="submit">Guardar turno</button>
+              <p class="footer-note" id="shift-status"></p>
+            </form>
+          </div>
+
+          <div class="card">
+            <span class="tag">Marketplace</span>
+            <h3>Publicar en marketplace</h3>
+            <form id="listing-form">
+              <label for="listing-owner">Publica</label>
+              <select id="listing-owner" name="owner" required></select>
+
+              <label for="listing-title">Título</label>
+              <input id="listing-title" name="title" required placeholder="Ej: Servicio de gasfiter" />
+
+              <label for="listing-type">Tipo</label>
+              <select id="listing-type" name="type" required>
+                <option value="venta">Venta</option>
+                <option value="servicio">Servicio</option>
+                <option value="trueque">Trueque</option>
+                <option value="dropshipping">Dropshipping</option>
+              </select>
+
+              <label for="listing-price">Precio / Condición</label>
+              <input id="listing-price" name="price" placeholder="$30.000 o intercambio" />
+
+              <label for="listing-category">Categoría</label>
+              <input id="listing-category" name="category" placeholder="Ej: Servicios, Venta, Trueque" />
+
+              <label for="listing-stock">Stock disponible</label>
+              <input id="listing-stock" name="stock" type="number" min="0" placeholder="Ej: 5" />
+
+              <label for="listing-image">Imagen (URL)</label>
+              <input id="listing-image" name="image" placeholder="https://..." />
+              <p class="footer-note">Imágenes recomendadas 1200x900 px para mejor visualización.</p>
+
+              <label for="listing-description">Descripción</label>
+              <textarea id="listing-description" name="description" placeholder="Detalles del anuncio"></textarea>
+
+              <button class="button primary" type="submit">Publicar</button>
+              <p class="footer-note" id="listing-status"></p>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top: 28px;">
+          <div class="card">
+            <span class="tag">Listado</span>
+            <h3>Perfiles activos</h3>
+            <div class="list" id="users-list"></div>
+          </div>
+          <div class="card">
+            <span class="tag">Listado</span>
+            <h3>Turnos programados</h3>
+            <div class="list" id="shifts-list"></div>
+          </div>
+          <div class="card">
+            <span class="tag">Alertas</span>
+            <h3>Ausencias y eventos</h3>
+            <div class="list" id="alerts-list"></div>
+          </div>
+          <div class="card">
+            <span class="tag">Reporte</span>
+            <h3>Estados de turnos</h3>
+            <div class="list" id="shift-report"></div>
+          </div>
+          <div class="card">
+            <span class="tag">Listado</span>
+            <h3>Marketplace</h3>
+            <label for="listing-search">Buscar</label>
+            <input id="listing-search" name="listing-search" placeholder="Buscar por título o categoría" />
+            <div class="list" id="listings-list"></div>
+          </div>
+          <div class="card">
+            <span class="tag">Carrito</span>
+            <h3>Productos seleccionados</h3>
+            <div class="list" id="cart-list"></div>
+            <button class="button primary" id="checkout-button" type="button">Generar pago</button>
+            <p class="footer-note" id="checkout-status"></p>
+          </div>
+          <div class="card">
+            <span class="tag">Compras</span>
+            <h3>Órdenes y pagos</h3>
+            <div class="list" id="orders-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Condominio Feliz · Plataforma de gestión y comunidad · <span id="current-year"></span></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>

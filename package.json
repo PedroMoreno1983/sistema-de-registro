@@ -1,0 +1,14 @@
+{
+  "name": "sistema-de-registro",
+  "version": "1.0.0",
+  "description": "Administrador de condominios con marketplace y turnos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  }
+}
